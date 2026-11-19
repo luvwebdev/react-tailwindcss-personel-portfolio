@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-labelledby="title desc">
+  <title id="title">NutsBucket — Better By Nature</title>
+  <desc id="desc">The selected split NB grid mark in a light-footer wordmark lockup.</desc>
+  <rect x="51" y="53" width="114" height="114" rx="8" fill="#71836b"/>
+  <path d="M108 53h57v114h-57Z" fill="#1d382b"/>
+  <path d="M108 58v104" stroke="#d7a54a" stroke-width="2"/>
+  <path d="M69 139V81l31 58V81" fill="none" stroke="#f7faf7" stroke-linecap="square" stroke-width="5"/>
+  <path d="M119 81h12c13 0 19 7 19 17s-6 16-19 16h-12m0 0h14c13 0 19 6 19 13s-6 12-19 12h-14" fill="none" stroke="#f7faf7" stroke-linecap="square" stroke-width="5"/>
+  <text x="202" y="109" fill="#f7faf7" font-family="Georgia,serif" font-size="48" letter-spacing=".5">NutsBucket</text>
+  <text x="205" y="142" fill="#c5d5c7" font-family="Arial,sans-serif" font-size="10" letter-spacing="3.2">BETTER BY NATURE</text>
+</svg>

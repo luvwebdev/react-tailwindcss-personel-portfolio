@@ -1,179 +1,130 @@
-import { Button } from "@/components/Button";
-import { ArrowRight, Download, ChevronDown } from "lucide-react";
-import { FiGithub, FiLinkedin } from "react-icons/fi";
-import { AnimatedBorderButton } from "../components/AnimatedBorderButton";
+import {
+  LuArrowDown as ArrowDown,
+  LuArrowUpRight as ArrowUpRight,
+} from "react-icons/lu";
+import { resumeHref } from "../lib/helpers";
 
-const skills = [
-  "React",
-  "Next.js",
-  "JavaScript",
-  "TypeScript",
-  "Node.js",
-  "SQL",
-  "PostgreSQL",
-  "MongoDB",
-  "Prisma",
-  "Vercel",
-  "Tailwind CSS",
-  "Git",
-  "GitHub Actions",
-];
-
-export const Hero = () => {
+const RotatingBadge = ({ text }) => {
+  const label = `${text} • `;
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden ">
-      {/* bg */}
-      <div className="absolute inset-0">
-        <img
-          src="/bg-photo.jpg"
-          alt="Hero image"
-          className="w-full h-full object-cover opacity-35"
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-background/20 via-background/80 to-background " />
-      </div>
-      {/* Green dots */}
+    <a
+      href="#contact"
+      aria-label="Get in touch"
+      className="group relative grid h-28 w-28 place-items-center rounded-full bg-crimson text-bone shadow-[0_20px_60px_-15px_rgba(226,58,47,0.6)] sm:h-32 sm:w-32"
+    >
+      <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full animate-spin-slow" aria-hidden="true">
+        <defs>
+          <path id="circle" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" />
+        </defs>
+        <text fontSize="8.6" fontFamily="JetBrains Mono, monospace" fill="currentColor">
+          <textPath href="#circle" textLength="228" lengthAdjust="spacing">
+            {label.toUpperCase()}
+          </textPath>
+        </text>
+      </svg>
+      <ArrowUpRight className="h-7 w-7 transition-transform duration-500 group-hover:rotate-45" />
+    </a>
+  );
+};
 
-      <div className="absoulute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(30)].map((_, i) => (
-          <div
-          key={i}
-            className="absolute w-1.5 h-1.5 rounded-full opacity-0"
-            style={{
-              backgroundColor: "#20B2A6",
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `slow-drift ${
-                15 + Math.random() * 20
-              }s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 5}s`,
-            }}
-          />
-        ))}
-      </div>
-      {/* Content*/}
-      <div className="container mx-auto px-6 pt-32 pb-20 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* left column - text content */}
-          <div>
-            <div className="animate-fade-in space-y-4 ">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-primary ">
-                <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                Software Engineer • MERN Stack Developer
-              </span>
-            </div>
+export const Hero = ({ data }) => {
+  const { profile, stats, resume } = data;
+  const [l1, l2, l3] = profile.headline;
 
-            {/* Headline*/}
-            <div className="space-y-4 mt-6 ">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight animate-fade-in animation-delay-100">
-                Bringing <span className="text-primary glow-text">Ideas</span>
-                <br />
-                To Life With
-                <br />
-                <span className="font-serif italic font-normal text-white">
-                  Code.
-                </span>
-              </h1>
-              <p className="text-lg text-muted-foreground max-w-lg animate-fade-in animation-delay-200">
-                Hey, I'm Luv — A Software Engineer specializing in JavaScript,
-                TypeScript, React, Node.js, Next.js, Express.js, and MongoDB. i
-                build scalable, performant web application that users love.
+  return (
+    <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden pt-24">
+      {/* soft crimson glow behind the portrait */}
+      <div className="pointer-events-none absolute -right-40 top-10 h-[620px] w-[620px] rounded-full bg-crimson/20 blur-[140px]" />
+
+      <div className="relative mx-auto grid w-full max-w-[1400px] flex-1 grid-cols-12 gap-x-6 px-4 sm:px-8">
+        {/* Meta row */}
+        <div className="col-span-12 flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4 reveal">
+          <span className="eyebrow">
+            {[profile.role, profile.subtitle].filter(Boolean).join(" — ")}
+          </span>
+          <span className="eyebrow flex items-center gap-2">
+            {profile.available && <span className="h-1.5 w-1.5 rounded-full bg-[#4ade80] shadow-[0_0_10px_#4ade80]" />}
+            {profile.available ? profile.availabilityText : profile.location}
+          </span>
+        </div>
+
+        {/* Headline */}
+        <div className="relative z-10 col-span-12 pt-10 sm:pt-14 lg:col-span-8 lg:pt-20">
+          <h1 className="display text-[clamp(3.4rem,10.5vw,10.5rem)]">
+            <span className="reveal-mask">
+              <span>{l1}</span>
+            </span>
+            <span className="reveal-mask" style={{ "--d": "120ms" }}>
+              <span className="italic text-crimson">{l2}</span>
+            </span>
+            <span className="reveal-mask" style={{ "--d": "240ms" }}>
+              <span>{l3}</span>
+            </span>
+          </h1>
+
+          <div className="mt-10 grid gap-8 sm:grid-cols-[1fr_auto] sm:items-end lg:mt-14">
+            <div className="reveal max-w-xl" style={{ "--d": "400ms" }}>
+              <p className="text-lg leading-relaxed text-bone-2">
+                Hi, I'm <span className="text-bone">{profile.name}</span>. {profile.intro}
               </p>
-            </div>
-
-            {/* CTAs*/}
-            <div className="flex flex-wrap gap-4 mt-8 animate-fade-in animation-delay-300">
-              <Button className="size-lg space-y-4">
-                Contact Me <ArrowRight className="w-5 h-5" />
-              </Button>
-              <AnimatedBorderButton />
-            </div>
-            {/* Social links*/}
-            <div className="flex items-center gap-4 mt-6 animate-fade-in animation-delay-400">
-              <span className="text-sm text-muted-foreground ">Follow: </span>
-              {[
-                { icon: FiGithub, href: "https://github.com/dashboard" },
-                {
-                  icon: FiLinkedin,
-                  href: "https://www.linkedin.com/in/luv-070587253/",
-                },
-              ].map((social, idx) => (
-                <a
-                  key={idx}
-                  href={social.href}
-                  className="p-2 rounded-full glass hover:bg-primary/10  hover:text-primary transition-all duration-300"
-                >
-                  {<social.icon className="w-5 h-5 " />}
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href="#work" className="btn btn-primary">
+                  See selected work <ArrowDown className="h-4 w-4" />
                 </a>
-              ))}
-            </div>
-          </div>
-          {/* right column - text content */}
-          <div className="relative animate-fade-in animation-delay-300">
-            {/* Profile Picture */}
-
-            <div className="relative max-w-md mx-auto">
-              <div
-                className="absolute inset-0 
-              rounded-3xl bg-linear-to-br 
-              from-primary/30 via-transparent 
-              to-primary/10 blur-2xl animate-pulse"
-              />
-              <div className="relative glass rounded-3xl glow-border">
-                <img
-                  src="/my-pic.png"
-                  alt="Luv"
-                  className="w-full aspect-4/5 object-cover rounded-2xl"
-                />
-                {/* Floating Badge */}
-                <div className="absolute -bottom-4 -right-4 glass rounded-xl px-4 py-3 animate-float">
-                  <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                    <span className="text-sm font-medium">
-                      Available for work
-                    </span>
-                  </div>
-                </div>
-                {/* Stats Badge */}
-                <div className="absolute -top-4 -left-4 glass rounded-xl px-4 py-3 animate-float animation-delay-500">
-                  <div className="text-2xl font-bold text-primary">0-6+</div>
-                  <div className="text-sm text-muted-foreground">
-                    months Exp.
-                  </div>
-                </div>
+                <a href={resumeHref(resume)} target="_blank" rel="noreferrer" className="btn btn-ghost">
+                  Resume <ArrowUpRight className="h-4 w-4" />
+                </a>
               </div>
             </div>
+            <div className="reveal hidden sm:block lg:hidden" style={{ "--d": "500ms" }}>
+              <RotatingBadge text={profile.available ? "Available for work" : "Say hello"} />
+            </div>
           </div>
         </div>
-        {/* Skills Section */}
-        <div className="mt-20 animate-fade-in animation-delay-600">
-          <p className="text-sm text-muted-foreground mb-6 text-center">
-            {" "}
-            Technologies I work with
-          </p>
-          <div className="relative overflow-hidden">
-            <div className="flex animate-marquee">
-              {[...skills, ...skills].map((skill, idx) => (
-                <div key={idx} className="shrink-0 px-8 py-4 ">
-                  <span className="text-xl font-semibold text-muted-foreground/50 hover:text-muted-foreground transition-colors">
-                    {skill}
-                  </span>
+
+        {/* Portrait */}
+        <div className="relative col-span-12 mt-14 lg:col-span-4 lg:mt-0 lg:pt-20">
+          <div className="reveal relative mx-auto max-w-sm lg:max-w-none" style={{ "--d": "300ms" }}>
+            <div className="relative overflow-hidden rounded-[2rem] bg-ink-2">
+              <img
+                src={profile.photo}
+                alt={`Portrait of ${profile.name}`}
+                className="aspect-[4/5] w-full object-cover"
+                fetchPriority="high"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-ink via-transparent to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
+                <div>
+                  <p className="eyebrow text-bone-2">Based in</p>
+                  <p className="text-sm">{profile.location}</p>
                 </div>
-              ))}
+                <span className="eyebrow text-bone-2">©2026</span>
+              </div>
+            </div>
+            <div className="absolute -left-6 -top-6 hidden lg:block">
+              <RotatingBadge text={profile.available ? "Available for work" : "Say hello"} />
             </div>
           </div>
         </div>
       </div>
-      <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 
-      animate-fade-in animation-delay-800"
-      >
-        <a
-          href="#about"
-          className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"
-        >
-          <span className="text-xs uppercase tracking-wider">Scroll</span>
-          <ChevronDown className="w-6 h-6 animate-bounce" />
-        </a>
+
+      {/* Stats */}
+      <div className="relative mx-auto mt-16 w-full max-w-[1400px] px-4 sm:px-8">
+        <dl className="grid grid-cols-3 border-t border-line">
+          {stats.map((s, i) => (
+            <div
+              key={s.label}
+              className={`reveal py-6 ${i > 0 ? "border-l border-line pl-4 sm:pl-8" : ""}`}
+              style={{ "--d": `${i * 100}ms` }}
+            >
+              <dt className="eyebrow">{s.label}</dt>
+              <dd className="display mt-2 text-5xl sm:text-6xl">
+                {s.value}
+                <span className="text-crimson">.</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );

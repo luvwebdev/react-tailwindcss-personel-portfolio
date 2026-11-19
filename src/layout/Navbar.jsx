@@ -1,86 +1,119 @@
-import { Button } from "@/components/Button";
-import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { AnimatedBorderButton } from "../components/AnimatedBorderButton";
+import {
+  LuArrowUpRight as ArrowUpRight,
+  LuMenu as Menu,
+  LuX as X,
+} from "react-icons/lu";
+import { resumeHref } from "../lib/helpers";
 
-const navLinks = [
+const links = [
+  { href: "#work", label: "Work" },
   { href: "#about", label: "About" },
+  { href: "#skills", label: "Skills" },
   { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Project" },
   { href: "#contact", label: "Contact" },
 ];
 
-export const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+export const useClock = (timeZone) => {
+  const fmt = () => {
+    try {
+      return new Intl.DateTimeFormat("en-GB", { timeZone, hour: "2-digit", minute: "2-digit" }).format(new Date());
+    } catch {
+      return "";
+    }
+  };
+  const [time, setTime] = useState(fmt);
+  useEffect(() => {
+    const id = setInterval(() => setTime(fmt()), 15000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeZone]);
+  return time;
+};
+
+export const Navbar = ({ data }) => {
+  const { profile, resume } = data;
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const time = useClock(profile.timezone || "Asia/Kolkata");
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+  }, [open]);
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 transition-all duration-500 ${
-        isScrolled ? "glass-strong py-3" : "bg-transparent py-5 "
-      } z-50`}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        scrolled && !open ? "bg-ink/70 backdrop-blur-xl border-b border-line" : "border-b border-transparent"
+      }`}
     >
-      <nav className="container mx-auto px-6 flex items-center justify-between ">
-        <a
-          href="#"
-          className="text-xl font-bold tracking-tight hover:text-primary"
-        >
-          LUV<span className="hover:text-primary"></span>
+      <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-4 sm:px-8">
+        <a href="#top" className="group flex items-baseline gap-1 text-xl" onClick={() => setOpen(false)}>
+          <span className="display text-3xl italic">{profile.name}</span>
+          <span className="h-2 w-2 rounded-full bg-crimson transition-transform duration-500 group-hover:scale-150" />
         </a>
 
-        {/* Desktop Nav*/}
-        <div className="hidden md:flex items-center gap-1">
-          <div className="glass rounded-full px-2 py-1 flex items-center gap-1">
-            {navLinks.map((link, index) => (
-              <a
-                href={link.href}
-                key={index}
-                className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground rounded-full hover:bg-surface"
-              >
-                {link.label}
+        <ul className="hidden items-center gap-8 text-sm text-bone-2 md:flex">
+          {links.map((l) => (
+            <li key={l.href}>
+              <a href={l.href} className="link-u hover:text-bone">
+                {l.label}
               </a>
-            ))}
-          </div>
-        </div>
-        {/* CTA Button*/}
-        <div className="hidden md:block">
-          <Button size="sm">Contact me</Button>
+            </li>
+          ))}
+        </ul>
+
+        <div className="hidden items-center gap-5 md:flex">
+          {time && (
+            <span className="eyebrow">
+              IST {time}
+            </span>
+          )}
+          <a href={resumeHref(resume)} target="_blank" rel="noreferrer" className="btn btn-ghost px-4! py-2! text-sm">
+            Resume <ArrowUpRight className="h-4 w-4" />
+          </a>
         </div>
 
-        {/* Mobile Menu  Button*/}
         <button
-          className=" md:hidden p-2  text-foreground cursor-pointer"
-          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+          className="relative z-50 -mr-2 p-2 md:hidden"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          onClick={() => setOpen((o) => !o)}
         >
-          {isMobileMenuOpen ? <X /> : <Menu size={24} />}
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </nav>
-      {/* mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden glass-strong animate-fade-in">
-          <div className="container mx-auto px-6 py-6  flex flex-col gap-4">
-            {navLinks.map((link, index) => (
+
+      <div
+        className={`fixed inset-0 z-40 flex flex-col justify-between bg-ink px-4 pb-10 pt-24 transition-[clip-path] duration-700 ease-out-expo md:hidden ${
+          open ? "[clip-path:inset(0_0_0_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]"
+        }`}
+      >
+        <ul className="space-y-1">
+          {links.map((l, i) => (
+            <li key={l.href} className="border-b border-line">
               <a
-                href={link.href}
-                key={index}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-lg text-muted-foreground hover:text-foreground py-2 "
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="flex items-baseline justify-between py-4"
               >
-                {link.label}
+                <span className="display text-5xl">{l.label}</span>
+                <span className="eyebrow">0{i + 1}</span>
               </a>
-            ))}
-            <Button onClick={() => setIsMobileMenuOpen(false)} >Contact me</Button>
-          </div>
-        </div>
-      )}
+            </li>
+          ))}
+        </ul>
+        <a href={resumeHref(resume)} target="_blank" rel="noreferrer" className="btn btn-primary justify-center">
+          View resume <ArrowUpRight className="h-4 w-4" />
+        </a>
+      </div>
     </header>
   );
 };

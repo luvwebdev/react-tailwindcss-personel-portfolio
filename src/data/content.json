@@ -1,0 +1,406 @@
+{
+  "profile": {
+    "name": "Luv",
+    "role": "Frontend Engineer",
+    "subtitle": "",
+    "headline": [
+      "I build",
+      "web products",
+      "people pay for."
+    ],
+    "intro": "Frontend engineer focused on React, with full-stack experience across Node.js, Express and MongoDB. I design, build and ship complete products — from the storefront a customer sees to the payment webhook nobody does.",
+    "location": "Baddi, Himachal Pradesh, India",
+    "timezone": "Asia/Kolkata",
+    "available": true,
+    "availabilityText": "Open to full-time roles & freelance projects",
+    "photo": "/my-pic.jpg"
+  },
+  "contact": {
+    "email": "luvwebdev@gmail.com",
+    "phone": "+91 9317737209",
+    "location": "Baddi, Himachal Pradesh"
+  },
+  "socials": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/luvwebdev",
+      "inResume": true
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/luv-070587253/",
+      "inResume": false
+    }
+  ],
+  "about": {
+    "heading": "Engineer by trade, product builder by habit.",
+    "paragraphs": [
+      "I'm a Frontend Engineer who builds with React and Tailwind CSS, backed by hands-on full-stack MERN experience. I care about clean architecture, fast interfaces and the details that make an app feel finished.",
+      "My recent freelance work is real commerce: two e-commerce storefronts with admin dashboards, payment gateways, inventory and order management — built end-to-end, from the data model to the deploy."
+    ],
+    "mission": "Build software with precision and purpose — the kind that quietly works, scales, and earns trust.",
+    "highlights": [
+      {
+        "title": "Clean architecture",
+        "description": "Modular, readable code that stays easy to change."
+      },
+      {
+        "title": "Secure payments",
+        "description": "Server-verified orders, signed webhooks, no trusting the browser."
+      },
+      {
+        "title": "Admin tooling",
+        "description": "Dashboards that let owners run the business without a developer."
+      },
+      {
+        "title": "Responsive UI",
+        "description": "Interfaces that feel right on every screen size."
+      }
+    ]
+  },
+  "stats": [
+    {
+      "value": "4",
+      "label": "Projects built"
+    },
+    {
+      "value": "2",
+      "label": "E-commerce stores"
+    },
+    {
+      "value": "2",
+      "label": "Payment gateways integrated"
+    }
+  ],
+  "skills": [
+    {
+      "category": "Languages",
+      "items": [
+        "JavaScript",
+        "TypeScript",
+        "HTML5",
+        "CSS3"
+      ]
+    },
+    {
+      "category": "Frontend",
+      "items": [
+        "React.js",
+        "React Router",
+        "Tailwind CSS",
+        "Vite"
+      ]
+    },
+    {
+      "category": "Backend",
+      "items": [
+        "Node.js",
+        "Express.js",
+        "REST APIs",
+        "Firebase Cloud Functions"
+      ]
+    },
+    {
+      "category": "Database",
+      "items": [
+        "MongoDB",
+        "Mongoose",
+        "Cloud Firestore"
+      ]
+    },
+    {
+      "category": "Services",
+      "items": [
+        "Firebase Auth",
+        "Cloudinary",
+        "Razorpay",
+        "Cashfree",
+        "Vercel"
+      ]
+    },
+    {
+      "category": "Tools",
+      "items": [
+        "Git",
+        "GitHub",
+        "VS Code",
+        "Postman"
+      ]
+    },
+    {
+      "category": "Concepts",
+      "items": [
+        "Authentication",
+        "CRUD Operations",
+        "API Integration",
+        "Payment Webhooks",
+        "Responsive Design",
+        "Component-Based Architecture"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "nutsbucket",
+      "title": "NutsBucket",
+      "tagline": "Premium dry-fruits e-commerce store",
+      "description": "A full D2C storefront and operations dashboard for a premium dry-fruits brand. Customers browse, filter and pay by UPI; the owner runs products, orders, coupons, inventory and refunds from one admin panel.",
+      "highlights": [
+        "Built a React storefront with cart, product filters and Cashfree checkout (UPI QR), backed by an Express API on Vercel.",
+        "Server-side price and coupon validation, signed webhook verification, and idempotent stock decrement inside Firestore transactions.",
+        "Admin dashboard with sales analytics, Cloudinary image uploads, order tracking, coupons, inventory audit log, refunds and CSV export."
+      ],
+      "tags": [
+        "React",
+        "Express.js",
+        "Firebase",
+        "Cashfree",
+        "Cloudinary",
+        "Tailwind CSS"
+      ],
+      "image": "",
+      "logo": "/projects/nutsbucket-mark.svg",
+      "color": "#1d382b",
+      "accent": "#d7a54a",
+      "live": "https://nutsbucket.in",
+      "github": "",
+      "year": "2026",
+      "role": "Full-stack · Design · Deployment",
+      "featured": true,
+      "inResume": true,
+      "status": "Live",
+      "gallery": [
+        {
+          "src": "/projects/nutsbucket/home.jpg",
+          "caption": "Home — hero & collection stats"
+        },
+        {
+          "src": "/projects/nutsbucket/shop.jpg",
+          "caption": "Shop — filters & product grid"
+        },
+        {
+          "src": "/projects/nutsbucket/promise.jpg",
+          "caption": "Brand promise section"
+        },
+        {
+          "src": "/projects/nutsbucket/cart.jpg",
+          "caption": "Cart"
+        },
+        {
+          "src": "/projects/nutsbucket/admin-login.jpg",
+          "caption": "Admin sign-in"
+        }
+      ]
+    },
+    {
+      "id": "cultmecha",
+      "title": "Cult Mecha",
+      "tagline": "Streetwear brand storefront & admin",
+      "description": "A premium streetwear store with a complete back office. Firebase handles auth and data, Cloud Functions process Razorpay payments securely, and a multi-page admin covers catalogue, sizes, orders, returns and reports.",
+      "highlights": [
+        "Developed a storefront (shop, product, checkout, account) with Google & email sign-in via Firebase Authentication.",
+        "Razorpay payments via Cloud Functions: server-computed totals, HMAC signature verification and a webhook safety net.",
+        "Admin panel for products & SEO, per-size inventory, order fulfilment, customers, returns, review moderation and sales reports."
+      ],
+      "tags": [
+        "React",
+        "Firebase",
+        "Cloud Functions",
+        "Razorpay",
+        "Cloudinary",
+        "Tailwind CSS"
+      ],
+      "image": "",
+      "logo": "/projects/cultmecha-mark.svg",
+      "color": "#0b0b10",
+      "accent": "#ffffff",
+      "live": "https://www.cultmecha.com",
+      "github": "",
+      "year": "2026",
+      "role": "Full-stack · Brand · Deployment",
+      "featured": true,
+      "inResume": true,
+      "status": "Live",
+      "gallery": [
+        {
+          "src": "/projects/cultmecha/home.jpg",
+          "caption": "Home — campaign & offers"
+        },
+        {
+          "src": "/projects/cultmecha/shop.jpg",
+          "caption": "Shop — filters & catalogue"
+        },
+        {
+          "src": "/projects/cultmecha/product.jpg",
+          "caption": "Product page — sizes & details"
+        },
+        {
+          "src": "/projects/cultmecha/size-guide.jpg",
+          "caption": "Size guide"
+        },
+        {
+          "src": "/projects/cultmecha/contact.jpg",
+          "caption": "Customer care"
+        }
+      ]
+    },
+    {
+      "id": "job-portal",
+      "title": "Job Portal",
+      "tagline": "MERN job board for seekers & recruiters",
+      "description": "A full-stack job portal connecting job seekers and recruiters, with secure authentication, job search and application management.",
+      "highlights": [
+        "Built a full-stack Job Portal using the MERN stack with authentication and CRUD functionality.",
+        "Developed RESTful APIs using Express.js and MongoDB following a modular architecture.",
+        "Created responsive user interfaces using React.js and Tailwind CSS."
+      ],
+      "tags": [
+        "React",
+        "Node.js",
+        "Express.js",
+        "MongoDB"
+      ],
+      "image": "",
+      "logo": "",
+      "color": "#14202b",
+      "accent": "#7fb2ff",
+      "live": "",
+      "github": "https://github.com/luvwebdev/Job-Portal",
+      "year": "2026",
+      "role": "Full-stack",
+      "featured": false,
+      "inResume": true,
+      "status": "",
+      "gallery": [
+        {
+          "src": "/projects/job-portal/home.jpg",
+          "caption": "Home — job search & latest openings"
+        },
+        {
+          "src": "/projects/job-portal/login.jpg",
+          "caption": "Login (student / recruiter)"
+        },
+        {
+          "src": "/projects/job-portal/signup.jpg",
+          "caption": "Sign up with profile upload"
+        },
+        {
+          "src": "/projects/job-portal/recruiter-jobs.jpg",
+          "caption": "Recruiter — posted jobs"
+        }
+      ]
+    },
+    {
+      "id": "portfolio",
+      "title": "Personal Portfolio",
+      "tagline": "This site — with its own content admin",
+      "description": "A responsive developer portfolio with a built-in admin panel to edit every section and generate a print-ready resume from the same data.",
+      "highlights": [
+        "Designed and developed a responsive developer portfolio showcasing projects and technical skills.",
+        "Built reusable React components with a modern UI using Tailwind CSS.",
+        "Deployed the application on Vercel using GitHub integration."
+      ],
+      "tags": [
+        "React",
+        "Tailwind CSS",
+        "Vite"
+      ],
+      "image": "",
+      "logo": "",
+      "color": "#1a0c0c",
+      "accent": "#e23a2f",
+      "live": "",
+      "github": "",
+      "year": "2026",
+      "role": "Design · Development",
+      "featured": false,
+      "inResume": false,
+      "status": "",
+      "gallery": [
+        {
+          "src": "/projects/portfolio/home.jpg",
+          "caption": "Hero"
+        },
+        {
+          "src": "/projects/portfolio/work.jpg",
+          "caption": "Selected work"
+        },
+        {
+          "src": "/projects/portfolio/about.jpg",
+          "caption": "About"
+        },
+        {
+          "src": "/projects/portfolio/contact.jpg",
+          "caption": "Contact"
+        },
+        {
+          "src": "/projects/portfolio/resume.jpg",
+          "caption": "Printable resume — three templates"
+        }
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Freelance Frontend Engineer",
+      "company": "Client projects — NutsBucket, Cult Mecha",
+      "period": "2026 – Present",
+      "current": true,
+      "bullets": [
+        "Built two e-commerce storefronts end-to-end in React and Tailwind CSS, with admin dashboards for products, orders and inventory.",
+        "Integrated Razorpay and Cashfree payments with server-side verification using Firebase Cloud Functions and an Express API.",
+        "Deployed on Vercel with Firebase Auth, Firestore and Cloudinary image management."
+      ],
+      "technologies": [
+        "React",
+        "Tailwind CSS",
+        "Firebase",
+        "Express.js",
+        "Razorpay",
+        "Cashfree"
+      ]
+    },
+    {
+      "role": "MERN Stack Developer",
+      "company": "Self-Employed",
+      "period": "Jan 2026 – Jul 2026",
+      "current": false,
+      "bullets": [
+        "Developed responsive full-stack web applications using React.js, Node.js, Express.js and MongoDB.",
+        "Built reusable React components and responsive interfaces with Tailwind CSS.",
+        "Designed and integrated RESTful APIs while managing application data with MongoDB and Mongoose.",
+        "Applied Git workflows, clean coding principles and component-based architecture throughout development."
+      ],
+      "technologies": [
+        "JavaScript",
+        "React",
+        "Node.js",
+        "Express.js",
+        "MongoDB"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Master of Computer Applications (MCA) — Online",
+      "school": "Chandigarh University",
+      "period": "Sep 2026 – Present",
+      "details": "Currently pursuing",
+      "current": true
+    },
+    {
+      "degree": "Bachelor of Computer Applications (BCA)",
+      "school": "Baddi University of Emerging Sciences and Technology",
+      "period": "2023 – 2026",
+      "details": "CGPA: 6.20",
+      "current": false
+    }
+  ],
+  "resume": {
+    "template": "classic",
+    "summary": "Frontend Engineer specialising in React and modern, responsive web interfaces, with full-stack experience in Node.js, Express.js and MongoDB. Built two e-commerce platforms for clients, including payment gateways and admin dashboards. Passionate about solving real-world problems through clean architecture, modern technologies and continuous learning.",
+    "pdf": "",
+    "useUploadedPdf": false,
+    "portfolioUrl": "https://luv-portfolio-kohl.vercel.app"
+  }
+}

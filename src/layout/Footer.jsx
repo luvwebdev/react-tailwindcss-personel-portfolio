@@ -1,61 +1,44 @@
-import { FiGithub, FiLinkedin } from "react-icons/fi";
+import {
+  LuArrowUp as ArrowUp,
+} from "react-icons/lu";
+import { socialIcon } from "../lib/helpers";
 
-const socialLinks = [
-  { icon: FiGithub, href: "#", label: "GitHub" },
-  { icon: FiLinkedin, href: "#", label: "LinkedIn" },
- 
-];
-
-const footerLinks = [
-  { href: "#about", label: "About" },
-  { href: "#projects", label: "Projects" },
-  { href: "#experience", label: "Experience" },
-  { href: "#contact", label: "Contact" },
-];
-
-export const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
+export const Footer = ({ data }) => {
+  const { profile, socials, contact } = data;
   return (
-    <footer className="py-12 border-t border-border">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Logo & Copyright */}
-          <div className="text-center md:text-left">
-            <a href="#" className="text-xl font-bold tracking-tight">
-              LUV<span className="text-primary"></span>
-            </a>
-            <p className="text-sm text-muted-foreground mt-2">
-              © {currentYear} Luv. All rights reserved.
-            </p>
-          </div>
-
-          {/* Links */}
-          <nav className="flex flex-wrap justify-center gap-6">
-            {footerLinks.map((link) => (
+    <footer className="border-t border-line">
+      <div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-4 py-10 sm:px-8 md:flex-row md:items-center md:justify-between">
+        <div>
+          <a href={`mailto:${contact.email}`} className="link-u text-lg">
+            {contact.email}
+          </a>
+          <p className="mt-1 text-sm text-mute">
+            © {new Date().getFullYear()} {profile.name}. Designed & built by hand with React.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          {socials.map((s) => {
+            const Icon = socialIcon(s.label);
+            return (
               <a
-                key={link.href}
-                href={link.href}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                key={s.label + s.url}
+                href={s.url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={s.label}
+                className="grid h-10 w-10 place-items-center rounded-full border border-line transition-colors hover:border-bone hover:bg-bone hover:text-ink"
               >
-                {link.label}
+                <Icon className="h-4 w-4" />
               </a>
-            ))}
-          </nav>
-
-          {/* Social Links */}
-          <div className="flex items-center gap-4">
-            {socialLinks.map((social) => (
-              <a
-                key={social.label}
-                href={social.href}
-                aria-label={social.label}
-                className="p-2 rounded-full glass hover:bg-primary/10 hover:text-primary transition-all"
-              >
-                <social.icon className="w-5 h-5" />
-              </a>
-            ))}
-          </div>
+            );
+          })}
+          <a
+            href="#top"
+            aria-label="Back to top"
+            className="ml-2 grid h-10 w-10 place-items-center rounded-full bg-crimson text-bone transition-transform hover:-translate-y-1"
+          >
+            <ArrowUp className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </footer>

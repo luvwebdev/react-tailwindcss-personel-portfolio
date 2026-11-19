@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114 114" role="img" aria-labelledby="title desc">
+  <title id="title">NutsBucket NB grid mark</title>
+  <desc id="desc">A white NB grid monogram across sage and forest panels, divided by a brass line.</desc>
+  <rect width="114" height="114" rx="8" fill="#71836b"/>
+  <path d="M57 0h57v114H57Z" fill="#1d382b"/>
+  <path d="M57 5v104" stroke="#d7a54a" stroke-width="2"/>
+  <path d="M18 86V28l31 58V28M68 28h12c13 0 19 7 19 17s-6 16-19 16H68m0 0h14c13 0 19 6 19 13s-6 12-19 12H68" fill="none" stroke="#f7faf7" stroke-linecap="square" stroke-width="5"/>
+</svg>
