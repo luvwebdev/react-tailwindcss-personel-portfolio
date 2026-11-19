@@ -455,6 +455,18 @@ export default function Admin() {
 
 function ResumeTab({ data, set, bind, dirty }) {
   const current = data.resume.template;
+  const [pdf, setPdf] = useState({ state: "idle", msg: "" });
+  const buildPdfs = async () => {
+    setPdf({ state: "busy", msg: "Generating 3 PDFs… (about 20 seconds)" });
+    try {
+      const res = await fetch("/__admin/resume-pdf", { method: "POST" });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Failed");
+      setPdf({ state: "done", msg: `Updated ${json.files.join(", ")}. Commit & push to publish.` });
+    } catch (err) {
+      setPdf({ state: "error", msg: err.message });
+    }
+  };
   const { Component } = TEMPLATES[current] || TEMPLATES.classic;
   return (
     <>
@@ -490,6 +502,23 @@ function ResumeTab({ data, set, bind, dirty }) {
           Contact, skills, experience and education come from their own tabs. Choose which projects appear with the
           <em> Show on resume</em> switch in Projects.
         </p>
+      </Card>
+
+      <Card title="PDF downloads" description="The Download PDF button on /resume serves these files. Regenerate them after changing resume details.">
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            onClick={buildPdfs}
+            disabled={dirty || pdf.state === "busy"}
+            className="flex items-center gap-2 rounded-full bg-bone px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-crimson hover:text-bone disabled:opacity-40"
+          >
+            {pdf.state === "busy" ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+            Update PDF downloads
+          </button>
+          {dirty && <span className="text-xs text-mute">Save your changes first.</span>}
+          {pdf.msg && (
+            <span className={`text-sm ${pdf.state === "error" ? "text-crimson" : pdf.state === "done" ? "text-[#4ade80]" : "text-mute"}`}>{pdf.msg}</span>
+          )}
+        </div>
       </Card>
 
       <Card title="Use your own PDF instead" description="Optional. Upload a PDF and the Resume buttons will download it instead of the generated page.">

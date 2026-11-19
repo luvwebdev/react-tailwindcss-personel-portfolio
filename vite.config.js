@@ -3,6 +3,33 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import fs from "fs/promises";
+import os from "os";
+import { execFile } from "child_process";
+import { promisify } from "util";
+
+const run = promisify(execFile);
+const PDF_DIR = path.resolve(__dirname, "public/pdf");
+const TEMPLATES = ["classic", "modern", "editorial"];
+const CHROME_CANDIDATES = [
+  process.env.CHROME_PATH,
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "/Applications/Chromium.app/Contents/MacOS/Chromium",
+  "/usr/bin/google-chrome",
+  "/usr/bin/chromium",
+  "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+].filter(Boolean);
+
+const findChrome = async () => {
+  for (const c of CHROME_CANDIDATES) {
+    try {
+      await fs.access(c);
+      return c;
+    } catch {
+      /* try next */
+    }
+  }
+  return null;
+};
 
 const CONTENT_FILE = path.resolve(__dirname, "src/data/content.json");
 const UPLOAD_DIR = path.resolve(__dirname, "public/uploads");
@@ -54,6 +81,34 @@ const portfolioAdmin = () => ({
         send(res, 405, { error: "Method not allowed" });
       } catch (err) {
         send(res, 500, { error: err.message });
+      }
+    });
+
+    // Prints /resume with headless Chrome into public/pdf/resume-<template>.pdf
+    server.middlewares.use("/__admin/resume-pdf", async (req, res) => {
+      if (req.method !== "POST") return send(res, 405, { error: "Method not allowed" });
+      const chrome = await findChrome();
+      if (!chrome) return send(res, 500, { error: "Google Chrome not found. Set CHROME_PATH to its executable." });
+      const base = `http://${req.headers.host}`;
+      const profile = await fs.mkdtemp(path.join(os.tmpdir(), "resume-pdf-"));
+      try {
+        await fs.mkdir(PDF_DIR, { recursive: true });
+        const files = [];
+        for (const t of TEMPLATES) {
+          const out = path.join(PDF_DIR, `resume-${t}.pdf`);
+          await run(
+            chrome,
+            ["--headless", "--disable-gpu", "--no-first-run", "--no-pdf-header-footer", `--user-data-dir=${profile}`,
+              `--print-to-pdf=${out}`, "--virtual-time-budget=10000", "--timeout=45000", `${base}/resume?t=${t}`],
+            { timeout: 90000 },
+          );
+          files.push(`/pdf/resume-${t}.pdf`);
+        }
+        send(res, 200, { ok: true, files });
+      } catch (err) {
+        send(res, 500, { error: err.message });
+      } finally {
+        fs.rm(profile, { recursive: true, force: true }).catch(() => {});
       }
     });
 

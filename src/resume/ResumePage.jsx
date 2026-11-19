@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import {
   LuArrowLeft as ArrowLeft,
+  LuDownload as Download,
   LuPrinter as Printer,
 } from "react-icons/lu";
+import { resumeFileName, resumePdf } from "../lib/helpers";
 import content from "../data/content.json";
 import { TEMPLATES } from "./templates";
 import { ScaledPage } from "./ScaledPage";
@@ -34,9 +36,14 @@ export default function ResumePage() {
               </button>
             ))}
           </div>
-          <button onClick={() => window.print()} className="btn btn-primary px-4! py-2! text-sm">
-            <Printer className="h-4 w-4" /> Save as PDF
-          </button>
+          <div className="flex items-center gap-2">
+            <button onClick={() => window.print()} aria-label="Print" title="Print" className="grid h-9 w-9 place-items-center rounded-full border border-line text-bone-2 hover:border-bone hover:text-bone">
+              <Printer className="h-4 w-4" />
+            </button>
+            <a href={resumePdf(content.resume, key)} download={resumeFileName(content.profile.name)} className="btn btn-primary px-4! py-2! text-sm">
+              <Download className="h-4 w-4" /> Download PDF
+            </a>
+          </div>
         </div>
       </div>
       <div className="print-reset mx-auto max-w-[900px] px-4 py-8 print:p-0">

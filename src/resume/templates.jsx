@@ -1,13 +1,11 @@
-import { prettyUrl } from "../lib/helpers";
-
 /* Shared, print-safe data shaping for every template. */
 const prep = (data) => {
   const { profile, contact, socials, skills, projects, experience, education, resume } = data;
   const links = [
     contact.phone && { text: contact.phone, href: `tel:${contact.phone.replace(/[^\d+]/g, "")}` },
     contact.email && { text: contact.email, href: `mailto:${contact.email}` },
-    ...socials.filter((s) => s.inResume !== false).map((s) => ({ text: prettyUrl(s.url), href: s.url, label: s.label })),
-    resume.portfolioUrl && { text: prettyUrl(resume.portfolioUrl), href: resume.portfolioUrl, label: "Portfolio" },
+    resume.portfolioUrl && { text: "Portfolio", href: resume.portfolioUrl },
+    ...socials.filter((s) => s.inResume !== false).map((s) => ({ text: s.label, href: s.url })),
   ].filter(Boolean);
   return {
     name: profile.name,
@@ -21,6 +19,10 @@ const prep = (data) => {
     education,
   };
 };
+
+/** A project's link shown as a word ("Live Site" / "GitHub"), not a raw URL. */
+const projectLink = (p) =>
+  p.live ? { href: p.live, text: "Live Site" } : p.github ? { href: p.github, text: "GitHub" } : null;
 
 const Page = ({ className = "", children, style }) => (
   <div className={`resume-page bg-white text-[#16161a] ${className}`} style={style}>
@@ -54,7 +56,9 @@ export const Classic = ({ data }) => {
           {r.links.map((l, i) => (
             <span key={l.href}>
               {i > 0 && <span className="mx-1.5 text-[#888]">|</span>}
-              <a href={l.href}>{l.text}</a>
+              <a href={l.href} className={l.href.startsWith("http") ? "text-[#2b3a55] underline decoration-[#2b3a55]/30 underline-offset-2" : ""}>
+                {l.text}
+              </a>
             </span>
           ))}
         </p>
@@ -81,14 +85,9 @@ export const Classic = ({ data }) => {
           <div className="flex items-baseline justify-between gap-4">
             <p>
               <b>{p.title}</b>
-              {p.live && (
+              {projectLink(p) && (
                 <>
-                  {" "}— <a href={p.live} className="italic">{prettyUrl(p.live)}</a>
-                </>
-              )}
-              {!p.live && p.github && (
-                <>
-                  {" "}— <a href={p.github} className="italic">{prettyUrl(p.github)}</a>
+                  {" "}— <a href={projectLink(p).href} className="italic text-[#2b3a55] underline decoration-[#2b3a55]/30 underline-offset-2">{projectLink(p).text}</a>
                 </>
               )}
             </p>
@@ -209,9 +208,9 @@ export const Modern = ({ data }) => {
                 {p.title}
                 <span className="ml-1.5 text-[8.4pt] font-normal text-[#8a857d]">{p.tagline}</span>
               </p>
-              {(p.live || p.github) && (
-                <a href={p.live || p.github} className="shrink-0 text-[8pt] text-[#e23a2f]">
-                  {prettyUrl(p.live || p.github)}
+              {projectLink(p) && (
+                <a href={projectLink(p).href} className="shrink-0 text-[8pt] text-[#e23a2f]">
+                  {projectLink(p).text} ↗
                 </a>
               )}
             </div>
@@ -267,9 +266,9 @@ export const Editorial = ({ data }) => {
                   <span className="text-[10.5pt] font-semibold">{p.title}</span>
                   <span className="text-[#8a857d]"> — {p.tagline}</span>
                 </p>
-                {(p.live || p.github) && (
-                  <a href={p.live || p.github} className="shrink-0 font-[family-name:JetBrains_Mono,monospace] text-[7.4pt] text-[#e23a2f]">
-                    {prettyUrl(p.live || p.github)}
+                {projectLink(p) && (
+                  <a href={projectLink(p).href} className="shrink-0 font-[family-name:JetBrains_Mono,monospace] text-[7.4pt] text-[#e23a2f]">
+                    {projectLink(p).text} ↗
                   </a>
                 )}
               </div>
